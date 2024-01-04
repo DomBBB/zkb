@@ -3,12 +3,13 @@ import numpy as np
 
 name = "abc"
 
-df = pd.DataFrame(pd.date_range(start="2000-01-06", end="2000-01-29"), columns=["date"])
+df = pd.DataFrame(pd.date_range(start="2000-01-06", end="2000-02-04"), columns=["date"])
 df.insert(1, "weekday", df["date"].dt.day_name())
 df[f"{name}_PX-LAST"] = [20, 20, np.nan, np.nan,
                                                 20, 20, 20, 20, 20, np.nan, np.nan,
                                                 20, 20, 20, 20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20, np.nan]
+                                                20, 20, 20, 20, 20, np.nan, np.nan,
+                                                20, 20, 20, 20, 20]
 df[f"{name}_start"] = ""
 df[f"{name}_end"] = ""
 
@@ -23,6 +24,8 @@ while start_check != "end of backtest period reached":
         for i in range(start_check+1, start_check+8):
             if df.iloc[i]["weekday"] == "Friday":
                 break
+    elif start_check + 1 == len(df.index):
+        i = "end of backtest period reached"
     else:
         for i in range(start_check+1, len(df.index)):
             if df.iloc[i]["weekday"] == "Friday":
@@ -54,7 +57,10 @@ while start_check != "end of backtest period reached":
         if (df.iloc[new_i_end][f"{name}_start"] == "start") & (pd.notnull(df.iloc[new_i_end][f"{name}_PX-LAST"])) & (previous_i_end != "initial"):
             if ((new_i_end - previous_i_end) > 1):
                 df.iloc[new_i_end, df.columns.get_loc(f"{name}_start")] = ""
-                df.iloc[previous_i_end, df.columns.get_loc(f"{name}_end")] = ""
+                limited_df = df.iloc[0:new_i_end]
+                end_indices = limited_df.index[limited_df[f"{name}_end"] == "end"].tolist()
+                next_smaller_index = max(end_indices)
+                df.iloc[next_smaller_index, df.columns.get_loc(f"{name}_end")] = ""
             else:
                 manipulate_next_start = new_i_end
         if pd.notnull(df.iloc[new_i_end][f"{name}_PX-LAST"]):
@@ -62,6 +68,7 @@ while start_check != "end of backtest period reached":
             break
     # Increase counter
     start_check = i
+
 
 
 
