@@ -5,13 +5,14 @@ name = "abc"
 
 df = pd.DataFrame(pd.date_range(start="2000-01-06", end="2000-02-05"), columns=["date"])
 df.insert(1, "weekday", df["date"].dt.day_name())
-df[f"{name}_PX-LAST"] = [20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20, np.nan]
+df[f"{name}_PX-LAST"] = [10, 20, np.nan, np.nan,
+                                                30, 40, 50, 60, 70, np.nan, np.nan,
+                                                80, 90, 100, 110, 80, np.nan, np.nan,
+                                                100, 200, 50, 70, 90, np.nan, np.nan,
+                                                110, 120, 130, 140, 160, np.nan]
 df[f"{name}_start"] = ""
 df[f"{name}_end"] = ""
+df[f"{name}_return"] = ""
 
 start_check = int(df[(df["weekday"] == "Friday") & (df[f"{name}_PX-LAST"].notnull())].first_valid_index())
 df.iloc[start_check, df.columns.get_loc(f"{name}_start")] = "start"
@@ -71,6 +72,16 @@ while start_check != "end of backtest period reached":
     # Increase counter
     start_check = i
 
+
+start_index = None
+for index, row in df.iterrows():
+    if row[f"{name}_start"] == "start" and start_index is None:
+        start_index = index
+    elif row[f"{name}_end"] == "end" and start_index is not None:
+        start_price = df.at[start_index, f"{name}_PX-LAST"]
+        end_price = row[f"{name}_PX-LAST"]
+        df.at[index, f"{name}_return"] = (end_price - start_price) / start_price * 100 #in %
+        start_index = None
 
 
 

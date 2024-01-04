@@ -83,6 +83,16 @@ class Asset:
                             break
                     # Increase counter
                     start_check = i
+                # Calculate returns
+                start_index = None
+                for index, row in df.iterrows():
+                    if row[f"{name}_start"] == "start" and start_index is None:
+                        start_index = index
+                    elif row[f"{name}_end"] == "end" and start_index is not None:
+                        start_price = df.at[start_index, f"{name}_PX-LAST"]
+                        end_price = row[f"{name}_PX-LAST"]
+                        df.at[index, f"{name}_return"] = (end_price - start_price) / start_price * 100 #in %
+                        start_index = None
                 print("success", self.__full_name)
                 self.__prices = df
 
@@ -150,4 +160,4 @@ commodity_agriculture= Category("Commodity_Agriculture", ['LC1_Comdty', 'KC1_Com
 
 
 
-equity.get_assets()[0].get_prices().head(20)
+equity.get_assets()[0].get_prices().head(50)
