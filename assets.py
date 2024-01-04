@@ -17,14 +17,17 @@ class Asset:
             if file.startswith(name):
                 self.__full_name = os.path.join("data", file)
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
-                df_date = pd.DataFrame(index=pd.date_range(start="2001-09-08", end="2023-12-31"))
+                df_date = pd.DataFrame(index=pd.date_range(start="1998-09-09", end="2023-12-31"))
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
                 df_data["date"] = pd.to_datetime(df_data["date"])
-                df_merged = df_date.merge(df_data, how="left", left_index=True, right_on="date").set_index("date")
-                df_merged.insert(0, "weekday", df_merged.index.day_name())
-                df_merged = df_merged.rename(columns={"PX_LAST": f"{name}_PX-LAST"})
-                df_merged[f"{name}_return"] = None
-                self.__prices = df_merged
+                df = df_date.merge(df_data, how="left", left_index=True, right_on="date").reset_index(drop=True)
+                df.insert(1, "weekday", df["date"].dt.day_name())
+                df = df.rename(columns={"PX_LAST": f"{name}_PX-LAST"})
+                df[f"{name}_return"] = None
+
+
+
+                self.__prices = df
 
     def get_name(self):
         return self.__name
@@ -90,4 +93,4 @@ commodity_agriculture= Category("Commodity_Agriculture", ['LC1_Comdty', 'KC1_Com
 
 
 
-equity.get_assets()[0].get_prices()
+equity.get_assets()[0].get_prices().head(40)
