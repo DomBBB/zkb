@@ -39,7 +39,6 @@ while start_check != "end of backtest period reached":
     if manipulate_next_start:
         df.iloc[manipulate_next_start, df.columns.get_loc(f"{name}_end")] = ""
         df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
-        manipulate_next_start = False
     if pd.notnull(df.iloc[i][f"{name}_PX-LAST"]):
         df.iloc[i, df.columns.get_loc(f"{name}_start")] = "start"
         new_i_start = i
@@ -51,6 +50,9 @@ while start_check != "end of backtest period reached":
             new_i_start += 1
         if new_i_start < len(df.index):
             df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = "start"
+    if manipulate_next_start:
+        df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
+        manipulate_next_start = False
     # I start from that Friday and look back to the last tradeable day (i.e. DO, MI, DI, MO)
     previous_i_end = new_i_end
     for new_i_end in range(i-1, start_check-1, -1):
