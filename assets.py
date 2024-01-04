@@ -18,7 +18,7 @@ class Asset:
             if file.startswith(name):
                 self.__full_name = os.path.join("data", file)
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
-                df_date = pd.DataFrame(index=pd.date_range(start="1998-09-09", end="2023-12-31"))
+                df_date = pd.DataFrame(index=pd.date_range(start="2023-09-09", end="2023-12-31"))
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
                 df_data["date"] = pd.to_datetime(df_data["date"])
                 df = df_date.merge(df_data, how="left", left_index=True, right_on="date").reset_index(drop=True)
@@ -83,6 +83,7 @@ class Asset:
                             break
                     # Increase counter
                     start_check = i
+                print("success", self.__full_name)
                 self.__prices = df
 
     def get_name(self):
@@ -134,8 +135,8 @@ bonds = Category("Bonds", ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty
 equity = Category("Equity", ['SM1_Index', 'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index',
                                                 'GX1_Index', 'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index',
                                                 'ATT1_Index', 'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index',
-                                                'TP1_Index', 'NI1_Index', 'HI1_Index', 'IH1_Index', 'MES1_Index',
-                                                'BZ1_Index'])
+                                                'TP1_Index', 'NI1_Index', 'HI1_Index', 'MES1_Index',
+                                                'BZ1_Index']) # 'IH1_Index' ends in june 23
 
 commodity_energy = Category("Commodity_Energy", ['CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty',
                                                                                            'HO1_Comdty', 'NG1_Comdty'])
