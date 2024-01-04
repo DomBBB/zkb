@@ -26,7 +26,7 @@ class Asset:
                 df = df.rename(columns={"PX_LAST": f"{name}_PX-LAST"})
                 df[f"{name}_start"] = ""
                 df[f"{name}_end"] = ""
-                df[f"{name}_return"] = None
+                df[f"{name}_return"] = ""
                 start_check = int(df[(df["weekday"] == "Friday") & (df[f"{name}_PX-LAST"].notnull())].first_valid_index())
                 df.iloc[start_check, df.columns.get_loc(f"{name}_start")] = "start"
                 new_i_end = "initial"
@@ -150,4 +150,4 @@ commodity_agriculture= Category("Commodity_Agriculture", ['LC1_Comdty', 'KC1_Com
 
 
 
-equity.get_assets()[0].get_prices().head(40)
+equity.get_assets()[0].get_prices().head(20)
