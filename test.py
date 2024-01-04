@@ -3,13 +3,13 @@ import numpy as np
 
 name = "abc"
 
-df = pd.DataFrame(pd.date_range(start="2000-01-06", end="2000-02-04"), columns=["date"])
+df = pd.DataFrame(pd.date_range(start="2000-01-06", end="2000-02-05"), columns=["date"])
 df.insert(1, "weekday", df["date"].dt.day_name())
 df[f"{name}_PX-LAST"] = [20, 20, np.nan, np.nan,
                                                 20, 20, 20, 20, 20, np.nan, np.nan,
                                                 20, 20, 20, 20, 20, np.nan, np.nan,
                                                 20, 20, 20, 20, 20, np.nan, np.nan,
-                                                20, 20, 20, 20, 20]
+                                                20, 20, 20, 20, 20, np.nan]
 df[f"{name}_start"] = ""
 df[f"{name}_end"] = ""
 
