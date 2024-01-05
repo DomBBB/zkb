@@ -120,8 +120,7 @@ public class GetData
 			new String[]{"CT1", "CHF", "Comdty"},
 			new String[]{"S 1", "CHF", "Comdty"},
 			new String[]{"SB1", "CHF", "Comdty"},
-            new String[]{"W 1", "CHF", "Comdty"},
-			new String[]{"VIX", "CHF", "Index"}
+            new String[]{"W 1", "CHF", "Comdty"}
         	));
 
 		for (String[] pair : securitiesAndCurrencies) {
