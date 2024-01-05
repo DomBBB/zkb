@@ -2,11 +2,14 @@
 LOAD DATA:
 javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData.java
 java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData
+javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport.java
+java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport
 
 HAVE:
 1) All assets ('IH1_Index' ends in june 23 - downloaded but excluded from assets -> look for continuance?)
 2) VIX Index
 3) Währungen als _CHF per 1 _ (z.B. USDCHF = Price of 1 USD in CHF). Ausnahme: Price of 100 JPY/KRW in CHF.
+
 
 
 Transaktionskosten:
