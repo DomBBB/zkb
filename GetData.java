@@ -30,7 +30,7 @@ public class GetData
     		System.out.println("Press ENTER to quit");
     		System.in.read();
   	}
-	
+
 	// Run method
 	private void run() throws Exception
 	{
@@ -38,105 +38,95 @@ public class GetData
 		SessionOptions sessionOptions = new SessionOptions();
 		sessionOptions.setServerHost("localhost");
 		sessionOptions.setServerPort(8194);
-		System.out.println("Connecting to " + sessionOptions.getServerHost() 
+		System.out.println("Connecting to " + sessionOptions.getServerHost()
            		 + ":" + sessionOptions.getServerPort());
 		// Start BB session
     		Session session = new Session(sessionOptions);
 		boolean sessionStarted = session.start();
-		if (!sessionStarted) 
+		if (!sessionStarted)
 		{
   			System.err.println("Failed to start session.");
   			return;
 		}
 		// Open the Service
-		if (!session.openService(APIREFDATA_SVC)) 
+		if (!session.openService(APIREFDATA_SVC))
 		{
   			System.out.println("Failed to open service: " + APIREFDATA_SVC);
   			return;
 		}
 		Service refDataService = session.getService(APIREFDATA_SVC);
-	
-		///////////////////////////////////////////
-		/* Construct and Send Request
-		   CHF is possible in:
-			{"WN1", "USD", "Comdty"}, //CHF possible
-			{"CN1", "USD", "Comdty"}, //CHF possible
-			{"G 1", "USD", "Comdty"}, //CHF possible
-			{"OE1", "USD", "Comdty"}, //CHF possible
-			{"RX1", "USD", "Comdty"}, //CHF possible
-			{"XM1", "USD", "Comdty"}, //CHF possible
-			{"TFT1", "USD", "Comdty"}, //CHF possible
 
-			ALL Index & ALL rest commodities			
-		*/
+		///////////////////////////////////////////
+		/* Construct and Send Request */
 		///////////////////////////////////////////
 		List<String[]> securitiesAndCurrencies = new ArrayList<>(Arrays.asList(
-           		new String[]{"FB1", "CHF", "Comdty"},
-            		new String[]{"TU1", "USD", "Comdty"},
+           	new String[]{"FB1", "CHF", "Comdty"},
+            new String[]{"TU1", "USD", "Comdty"},
 			new String[]{"FV1", "USD", "Comdty"},
 			new String[]{"TY1", "USD", "Comdty"},
-			new String[]{"WN1", "USD", "Comdty"},
+			new String[]{"WN1", "CHF", "Comdty"},
 			new String[]{"CV1", "CAD", "Comdty"},
 			new String[]{"XQ1", "CAD", "Comdty"},
-			new String[]{"CN1", "USD", "Comdty"},
+			new String[]{"CN1", "CHF", "Comdty"},
 			new String[]{"LGB1", "CAD", "Comdty"},
 			new String[]{"WB1", "GBP", "Comdty"},
 			new String[]{"WX1", "GBP", "Comdty"},
-			new String[]{"G 1", "USD", "Comdty"},
+			new String[]{"G 1", "CHF", "Comdty"},
 			new String[]{"UGL1", "GBP", "Comdty"},
-			new String[]{"DU1", "USD", "Comdty"},
-			new String[]{"OE1", "USD", "Comdty"},
-			new String[]{"RX1", "USD", "Comdty"},
+			new String[]{"DU1", "CHF", "Comdty"},
+			new String[]{"OE1", "CHF", "Comdty"},
+			new String[]{"RX1", "CHF", "Comdty"},
 			new String[]{"UB1", "EUR", "Comdty"},
 			new String[]{"IK1", "EUR", "Comdty"},
 			new String[]{"OAT1", "EUR", "Comdty"},
-			new String[]{"XM1", "USD", "Comdty"},
+			new String[]{"XM1", "CHF", "Comdty"},
 			new String[]{"JB1", "JPY", "Comdty"},
 			new String[]{"KAA1", "KRW", "Comdty"},
-			new String[]{"TFT1", "USD", "Comdty"},
-			new String[]{"SM1", "USD", "Index"},
-            		new String[]{"ES1", "USD", "Index"},
-			new String[]{"PT1", "USD", "Index"},
-			new String[]{"VG1", "USD", "Index"},
-			new String[]{"Z 1", "USD", "Index"},
-			new String[]{"GX1", "USD", "Index"},
-			new String[]{"ST1", "USD", "Index"},
-			new String[]{"CF1", "USD", "Index"},
-			new String[]{"OI1", "USD", "Index"},
-			new String[]{"QC1", "USD", "Index"},
-			new String[]{"ATT1", "USD", "Index"},
-			new String[]{"BE1", "USD", "Index"},
-			new String[]{"EO1", "USD", "Index"},
-			new String[]{"OT1", "USD", "Index"},
-			new String[]{"XP1", "USD", "Index"},
-			new String[]{"TP1", "USD", "Index"},
-			new String[]{"NI1", "USD", "Index"},
-			new String[]{"HI1", "USD", "Index"},
-			new String[]{"IH1", "USD", "Index"},
-			new String[]{"MES1", "USD", "Index"},
-			new String[]{"BZ1", "USD", "Index"},
-			new String[]{"CL1", "USD", "Comdty"},
-            		new String[]{"QS1", "USD", "Comdty"},
-			new String[]{"XB1", "USD", "Comdty"},
-			new String[]{"HO1", "USD", "Comdty"},
-			new String[]{"NG1", "USD", "Comdty"},
-			new String[]{"LMAHDS03 LME", "USD", "Comdty"},
-            		new String[]{"LMCADS03", "USD", "Comdty"},
-			new String[]{"LMNIDS03", "USD", "Comdty"},
-			new String[]{"GC1", "USD", "Comdty"},
-			new String[]{"SI1", "USD", "Comdty"},
-			new String[]{"LC1", "USD", "Comdty"},
-            		new String[]{"KC1", "USD", "Comdty"},
-			new String[]{"C 1", "USD", "Comdty"},
-			new String[]{"CT1", "USD", "Comdty"},
-			new String[]{"S 1", "USD", "Comdty"},
-			new String[]{"SB1", "USD", "Comdty"},
-            		new String[]{"W 1", "USD", "Comdty"}
+			new String[]{"TFT1", "CHF", "Comdty"},
+			new String[]{"SM1", "CHF", "Index"},
+            new String[]{"ES1", "CHF", "Index"},
+			new String[]{"PT1", "CHF", "Index"},
+			new String[]{"VG1", "CHF", "Index"},
+			new String[]{"Z 1", "CHF", "Index"},
+			new String[]{"GX1", "CHF", "Index"},
+			new String[]{"ST1", "CHF", "Index"},
+			new String[]{"CF1", "CHF", "Index"},
+			new String[]{"OI1", "CHF", "Index"},
+			new String[]{"QC1", "CHF", "Index"},
+			new String[]{"ATT1", "CHF", "Index"},
+			new String[]{"BE1", "CHF", "Index"},
+			new String[]{"EO1", "CHF", "Index"},
+			new String[]{"OT1", "CHF", "Index"},
+			new String[]{"XP1", "CHF", "Index"},
+			new String[]{"TP1", "CHF", "Index"},
+			new String[]{"NI1", "CHF", "Index"},
+			new String[]{"HI1", "CHF", "Index"},
+			new String[]{"IH1", "CHF", "Index"},
+			new String[]{"MES1", "CHF", "Index"},
+			new String[]{"BZ1", "CHF", "Index"},
+			new String[]{"CL1", "CHF", "Comdty"},
+            new String[]{"QS1", "CHF", "Comdty"},
+			new String[]{"XB1", "CHF", "Comdty"},
+			new String[]{"HO1", "CHF", "Comdty"},
+			new String[]{"NG1", "CHF", "Comdty"},
+			new String[]{"LMAHDS03 LME", "CHF", "Comdty"},
+            new String[]{"LMCADS03", "CHF", "Comdty"},
+			new String[]{"LMNIDS03", "CHF", "Comdty"},
+			new String[]{"GC1", "CHF", "Comdty"},
+			new String[]{"SI1", "CHF", "Comdty"},
+			new String[]{"LC1", "CHF", "Comdty"},
+            new String[]{"KC1", "CHF", "Comdty"},
+			new String[]{"C 1", "CHF", "Comdty"},
+			new String[]{"CT1", "CHF", "Comdty"},
+			new String[]{"S 1", "CHF", "Comdty"},
+			new String[]{"SB1", "CHF", "Comdty"},
+            new String[]{"W 1", "CHF", "Comdty"},
+			new String[]{"VIX", "CHF", "Index"}
         	));
 
 		for (String[] pair : securitiesAndCurrencies) {
-            		String securityName1 = pair[0];
-            		String securityCurrency = pair[1];
+            String securityName1 = pair[0];
+            String securityCurrency = pair[1];
 			String securityName2 = pair[2];
 
 			Request request = refDataService.createRequest("HistoricalDataRequest");
@@ -152,7 +142,7 @@ public class GetData
 			System.out.println("Sending Request: " + request);
 			session.sendRequest(request, null);
 			///////////////////////////////////////////
-	
+
 			// Handle Reply
 			try (FileWriter writer = new FileWriter(securityName1 + "_" + securityName2 + "_" + securityCurrency + ".csv")) {
 				writer.write("name,date,PX_LAST\n"); // Write the header line
@@ -193,5 +183,3 @@ public class GetData
     }
 
 }
-
-

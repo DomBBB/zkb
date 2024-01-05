@@ -164,76 +164,6 @@ equity.get_assets()[0].get_prices().head(50)
 
 
 """
-Bonds:
-    'FB1 Comdty',
-    'TU1 Comdty',
-    'FV1 Comdty',
-    'TY1 Comdty',
-    'WN1 Comdty',
-    'CV1 Comdty',
-    'XQ1 Comdty',
-    'CN1 Comdty',
-    'LGB1 Comdty',
-    'WB1 Comdty',
-    'WX1 Comdty',
-    'G 1 Comdty',
-    'UGL1 Comdty',
-    'DU1 Comdty',
-    'OE1 Comdty',
-    'RX1 Comdty',
-    'UB1 Comdty',
-    'IK1 Comdty',
-    'OAT1 Comdty',
-    'XM1 Comdty',
-    'JB1 Comdty',
-    'KAA1 Comdty',
-    'TFT1 Comdty'
-
-Equity
-    'SM1 Index',
-    'ES1 Index',
-    'PT1 Index',
-    'VG1 Index',
-    'Z 1 Index',
-    'GX1 Index',
-    'ST1 Index',
-    'CF1 Index',
-    'OI1 Index',
-    'QC1 Index',
-    'ATT1 Index',
-    'BE1 Index',
-    'EO1 Index',
-    'OT1 Index',
-    'XP1 Index',
-    'TP1 Index',
-    'NI1 Index',
-    'HI1 Index',
-    'IH1 Index',
-    'MES1 Index',
-    'BZ1 Index'
-
-Commodity:
-Energy:
-    'CL1 Comdty',
-    'QS1 Comdty',
-    'XB1 Comdty',
-    'HO1 Comdty',
-    'NG1 Comdty'
-Metals:
-    'LMAHDS03 LME Comdty',
-    'LMCADS03 Comdty',
-    'LMNIDS03 Comdty',
-    'GC1 Comdty',
-    'SI1 Comdty'
-Agri
-    'LC1 Comdty',
-    'KC1 Comdty',
-    'C 1 Comdty',
-    'CT1 Comdty',
-    'S 1 Comdty',
-    'SB1 Comdty',
-    'W 1 Comdty'
-
 
 Transaktionskosten:
     VIX Index / 20 * 0.03% => e.g. 13.34 / 20 =
@@ -243,7 +173,6 @@ Transaktionskosten:
 STEPS
 ######
 1)
-Download Data > CDEF in Bloomberg 2 Days to First Notice + "Relative" Roll (???relative to first notice; 2 days; ratio???) >
 Wie sehen die Daten aus, machen sie Sinn? Was ist das bestmögliche Zeitfenster, sollen wir auf gewisse Futures von oben verzichten?
 "Ausreisser unbedingt drinlassen"
 Auch View auf den wichtigsten Währungen bilden. Portfolio Return ist Underlying+Währungsreturns.
