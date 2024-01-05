@@ -1,4 +1,8 @@
 """
+LOAD DATA:
+javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData.java
+java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData
+
 HAVE:
 1) All assets ('IH1_Index' ends in june 23 - downloaded but excluded from assets -> look for continuance?)
 2) VIX Index
