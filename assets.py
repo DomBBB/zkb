@@ -14,9 +14,9 @@ class Asset:
         assert isinstance(category, str), f"category '{category}' is not a string"
         self.__category = category
 
-        for file in os.listdir("data"):
+        for file in os.listdir(os.path.join("data","assets")):
             if file.startswith(name):
-                self.__full_name = os.path.join("data", file)
+                self.__full_name = os.path.join(os.path.join("data","assets"), file)
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
                 df_date = pd.DataFrame(index=pd.date_range(start="2023-01-01", end="2023-12-31"))
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
