@@ -6,7 +6,7 @@ java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData
 HAVE:
 1) All assets ('IH1_Index' ends in june 23 - downloaded but excluded from assets -> look for continuance?)
 2) VIX Index
-3) Währungen als _CHF, z.B. USDCHF = Price of 1 USD in CHF
+3) Währungen als _CHF per 1 _ (z.B. USDCHF = Price of 1 USD in CHF). Ausnahme: Price of 100 JPY in CHF.
 
 
 Transaktionskosten:
