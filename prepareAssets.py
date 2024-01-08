@@ -15,7 +15,7 @@ class Asset:
             if file.startswith(name):
                 self.__full_name = os.path.join(os.path.join("data","assets"), file)
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
-                df_date = pd.DataFrame(index=pd.date_range(start="2023-01-01", end="2023-12-31"))
+                df_date = pd.DataFrame(index=pd.date_range(start="2021-01-01", end="2023-12-31"))
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
                 df_data["date"] = pd.to_datetime(df_data["date"])
                 df = df_date.merge(df_data, how="left", left_index=True, right_on="date").reset_index(drop=True)
@@ -23,7 +23,6 @@ class Asset:
                 df = df.rename(columns={"PX_LAST": f"{name}_PX-LAST"})
                 df[f"{name}_start"] = ""
                 df[f"{name}_end"] = ""
-                df[f"{name}_return"] = ""
                 start_check = int(df[(df["weekday"] == "Friday") & (df[f"{name}_PX-LAST"].notnull())].first_valid_index())
                 df.iloc[start_check, df.columns.get_loc(f"{name}_start")] = "start"
                 new_i_end = "initial"
@@ -80,18 +79,28 @@ class Asset:
                             break
                     # Increase counter
                     start_check = i
-                # Calculate returns
-                start_index = None
-                for index, row in df.iterrows():
-                    if row[f"{name}_start"] == "start" and start_index is None:
-                        start_index = index
-                    elif row[f"{name}_end"] == "end" and start_index is not None:
-                        start_price = df.at[start_index, f"{name}_PX-LAST"]
-                        end_price = row[f"{name}_PX-LAST"]
-                        df.at[index, f"{name}_return"] = (end_price - start_price) / start_price * 100 #in %
-                        start_index = None
-                print("success", self.__full_name)
+                # Convert currencies
+                if self.__currency == "CHF":
+                    df = df.rename(columns={f"{name}_PX-LAST": f"{name}_PX-LAST-CHF"})
+                else:
+                    for file in os.listdir(os.path.join("data","support")):
+                        if file.startswith(self.__currency):
+                            df_currency = pd.read_csv(os.path.join("data","support", file), usecols=[1,2])
+                            df_currency["date"] = pd.to_datetime(df_currency["date"])
+                            df[f"{name}_CURRENCY-{self.__currency}"] = df["date"].map(df_currency.set_index("date")["PX_LAST"])
+                            assert all((df.loc[df[f"{name}_PX-LAST"].notna(), f"{name}_CURRENCY-{self.__currency}"].notna())), \
+                                f"Not all non-NaN {name}_PX-LAST entries have a corresponding non-NaN {name}_CURRENCY-{self.__currency} entry."
+                            if self.__currency in ("JPY", "KRW"):
+                                df[f"{name}_PX-LAST-CHF"] = df[f"{name}_PX-LAST"] * df[f"{name}_CURRENCY-{self.__currency}"] / 100
+                            else:
+                                df[f"{name}_PX-LAST-CHF"] = df[f"{name}_PX-LAST"] * df[f"{name}_CURRENCY-{self.__currency}"]
+                            column_order = df.columns.tolist()
+                            column_order.insert(3, column_order.pop(column_order.index(f"{name}_CURRENCY-{self.__currency}")))
+                            column_order.insert(4, column_order.pop(column_order.index(f"{name}_PX-LAST-CHF")))
+                            df = df[column_order]
+                # Done
                 self.__prices = df
+                print("success", self.__full_name)
 
     def get_name(self):
         return self.__name
@@ -118,11 +127,12 @@ all_assets = [Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_
                                                 'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index', 'GX1_Index',
                                                 'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index', 'ATT1_Index',
                                                 'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index', 'TP1_Index',
-                                                'NI1_Index', 'HI1_Index', 'MES1_Index', 'BZ1_Index', 'CL1_Comdty',
-                                                'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty', 'NG1_Comdty',
-                                                'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty', 'LMNIDS03_Comdty',
-                                                'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty', 'KC1_Comdty', 'C 1_Comdty',
-                                                'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty', 'W 1_Comdty']]
+                                                'NI1_Index', 'HI1_Index', 'IH1_Index', 'MES1_Index', 'BZ1_Index',
+                                                'CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty',
+                                                'NG1_Comdty', 'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty',
+                                                'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',
+                                                'KC1_Comdty', 'C 1_Comdty', 'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty',
+                                                'W 1_Comdty']]
 
 
-all_assets[0].get_prices().head(50)
+all_assets[5].get_prices().head(50)
