@@ -1,25 +1,30 @@
 """
-LOAD DATA from Bloomberg Terminal:
+LOAD DATA FROM BLOOMBERG:
 javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData.java
 java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetData
 javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport.java
 java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport
 
-prepareAssets.py
-1) Loads all Assets in CHF (note: IH1 ends in June23 -> EXCLUDED FOR NOW; look for continuance?)
-    * Foreign currencies downloaded as USDCHF (price of 1 USD in CHF). Exception: price of 100 JPY/KRW in CHF.
+
+SCRIPT 1: prepareAssets.py
+1) Loads all Assets from "assets_raw" in CHF (note: IH1 ends in June23 -> EXCLUDED FOR NOW; look for continuance?)
+    * Foreign currencies in "support" as USDCHF (price of 1 USD in CHF). Exception: price of 100 JPY/KRW in CHF.
        -> asset prices are converted to CHF
+[TODO] 2) Stores all Assets in "assets"
 
 
+[TODO] SCRIPT 2: assets.py
+Will load all assets
+
+[TODO] SCRIPT 3: main.py
+Will backtest
 
 HAVE:
-- VIX Index
+- VIX Index in "support"
 
 
 
-Transaktionskosten:
-    VIX Index / 20 * 0.03% => e.g. 13.34 / 20 =
-    → Transaktionskosten evtl. auch vola-basiert anschauen (TK * VIX) „hoch in Corona → genau dort holen wir return
+
 
 ######
 STEPS
@@ -28,6 +33,11 @@ STEPS
 Wie sehen die Daten aus, machen sie Sinn? Was ist das bestmögliche Zeitfenster, sollen wir auf gewisse Futures von oben verzichten?
 "Ausreisser unbedingt drinlassen"
 Auch View auf den wichtigsten Währungen bilden. Portfolio Return ist Underlying+Währungsreturns.
+
+Transaktionskosten:
+    VIX Index / 20 * 0.03% => e.g. 13.34 / 20 =
+    → Transaktionskosten evtl. auch vola-basiert anschauen (TK * VIX) „hoch in Corona → genau dort holen wir return
+
 
 2)
     -> Examine momentum and value strategies in a multi-asset portfolio with a given set of futures (stocks, bonds, commodities, and gold)

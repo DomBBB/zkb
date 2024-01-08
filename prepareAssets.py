@@ -9,14 +9,12 @@ class Asset:
     def __init__(self, name):
 
         assert isinstance(name, str), f"name '{name}' is not a string"
-        self.__name = name
-
-        for file in os.listdir(os.path.join("data","assets")):
+        for file in os.listdir(os.path.join("data","assets_raw")):
             if file.startswith(name):
-                self.__full_name = os.path.join(os.path.join("data","assets"), file)
+                self.__full_name = os.path.join(os.path.join("data","assets_raw"), file)
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
-                df_date = pd.DataFrame(index=pd.date_range(start="2021-01-01", end="2023-12-31"))
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
+                df_date = pd.DataFrame(index=pd.date_range(start=df_data.iloc[0]["date"], end="2023-12-31"))
                 df_data["date"] = pd.to_datetime(df_data["date"])
                 df = df_date.merge(df_data, how="left", left_index=True, right_on="date").reset_index(drop=True)
                 df.insert(1, "weekday", df["date"].dt.day_name())
@@ -99,40 +97,23 @@ class Asset:
                             column_order.insert(4, column_order.pop(column_order.index(f"{name}_PX-LAST-CHF")))
                             df = df[column_order]
                 # Done
-                self.__prices = df
+                new_path = os.path.normpath(self.__full_name).split(os.path.sep)[-1]
+                df.to_csv(os.path.join("data", "assets", new_path))
                 print("success", self.__full_name)
 
-    def get_name(self):
-        return self.__name
 
-    def get_full_name(self):
-        return self.__full_name
-
-    def get_currency(self):
-        return self.__currency
-
-    def get_prices(self):
-        return self.__prices
-
-    def __repr__(self):
-        return f"{self.get_name()} in {self.get_currency()}"
-
-
-all_assets = [Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty',
-                                                'WN1_Comdty', 'CV1_Comdty', 'XQ1_Comdty', 'CN1_Comdty',
-                                                'LGB1_Comdty', 'WB1_Comdty', 'WX1_Comdty', 'G 1_Comdty',
-                                                'UGL1_Comdty', 'DU1_Comdty', 'OE1_Comdty', 'RX1_Comdty',
-                                                'UB1_Comdty', 'IK1_Comdty', 'OAT1_Comdty', 'XM1_Comdty',
-                                                'JB1_Comdty', 'KAA1_Comdty', 'TFT1_Comdty', 'SM1_Index',
-                                                'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index', 'GX1_Index',
-                                                'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index', 'ATT1_Index',
-                                                'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index', 'TP1_Index',
-                                                'NI1_Index', 'HI1_Index', 'MES1_Index', 'BZ1_Index',
-                                                'CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty',
-                                                'NG1_Comdty', 'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty',
-                                                'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',
-                                                'KC1_Comdty', 'C 1_Comdty', 'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty',
-                                                'W 1_Comdty']]
-
-
-all_assets[5].get_prices().head(50)
+Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty',
+                            'WN1_Comdty', 'CV1_Comdty', 'XQ1_Comdty', 'CN1_Comdty',
+                            'LGB1_Comdty', 'WB1_Comdty', 'WX1_Comdty', 'G 1_Comdty',
+                            'UGL1_Comdty', 'DU1_Comdty', 'OE1_Comdty', 'RX1_Comdty',
+                            'UB1_Comdty', 'IK1_Comdty', 'OAT1_Comdty', 'XM1_Comdty',
+                            'JB1_Comdty', 'KAA1_Comdty', 'TFT1_Comdty', 'SM1_Index',
+                            'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index', 'GX1_Index',
+                            'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index', 'ATT1_Index',
+                            'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index', 'TP1_Index',
+                            'NI1_Index', 'HI1_Index', 'MES1_Index', 'BZ1_Index',
+                            'CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty',
+                            'NG1_Comdty', 'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty',
+                            'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',
+                            'KC1_Comdty', 'C 1_Comdty', 'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty',
+                            'W 1_Comdty']]
