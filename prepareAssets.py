@@ -99,7 +99,11 @@ class Asset:
                 # Done
                 new_path = os.path.normpath(self.__full_name).split(os.path.sep)[-1]
                 df.to_csv(os.path.join("data", "assets", new_path))
+                self.__prices = df
                 print("success", self.__full_name)
+
+    def __repr__(self):
+        return self.__full_name, self.__prices
 
 
 all_assets = [Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty',
