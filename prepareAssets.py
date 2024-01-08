@@ -6,7 +6,7 @@ import datetime
 
 class Asset:
 
-    def __init__(self, name):
+    def __init__(self, name, storage_flag=False):
 
         assert isinstance(name, str), f"name '{name}' is not a string"
         for file in os.listdir(os.path.join("data","assets_raw")):
@@ -97,16 +97,17 @@ class Asset:
                             column_order.insert(4, column_order.pop(column_order.index(f"{name}_PX-LAST-CHF")))
                             df = df[column_order]
                 # Done
-                new_path = os.path.normpath(self.__full_name).split(os.path.sep)[-1]
-                df.to_csv(os.path.join("data", "assets", new_path))
+                if storage_flag:
+                    new_path = os.path.normpath(self.__full_name).split(os.path.sep)[-1]
+                    df.to_csv(os.path.join("data", "assets", new_path))
                 self.__prices = df
                 print("success", self.__full_name)
 
     def __repr__(self):
-        return self.__full_name, self.__prices
+        return self.__full_name, self.__currency, self.__prices
 
 
-all_assets = [Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty',
+all_assets = [Asset(x, False) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_Comdty',
                                                 'WN1_Comdty', 'CV1_Comdty', 'XQ1_Comdty', 'CN1_Comdty',
                                                 'LGB1_Comdty', 'WB1_Comdty', 'WX1_Comdty', 'G 1_Comdty',
                                                 'UGL1_Comdty', 'DU1_Comdty', 'OE1_Comdty', 'RX1_Comdty',
