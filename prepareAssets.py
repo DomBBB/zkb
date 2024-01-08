@@ -127,7 +127,7 @@ all_assets = [Asset(x) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty', 'TY1_
                                                 'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index', 'GX1_Index',
                                                 'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index', 'ATT1_Index',
                                                 'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index', 'TP1_Index',
-                                                'NI1_Index', 'HI1_Index', 'IH1_Index', 'MES1_Index', 'BZ1_Index',
+                                                'NI1_Index', 'HI1_Index', 'MES1_Index', 'BZ1_Index',
                                                 'CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty',
                                                 'NG1_Comdty', 'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty',
                                                 'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',

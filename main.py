@@ -6,7 +6,7 @@ javac -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport.java
 java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport
 
 prepareAssets.py
-1) Loads all Assets in CHF (note: IH1 ends in June23 -> look for continuance?)
+1) Loads all Assets in CHF (note: IH1 ends in June23 -> EXCLUDED FOR NOW; look for continuance?)
     * Foreign currencies downloaded as USDCHF (price of 1 USD in CHF). Exception: price of 100 JPY/KRW in CHF.
        -> asset prices are converted to CHF
 
