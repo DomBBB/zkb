@@ -107,8 +107,7 @@ class Asset:
                             df = df[column_order]
                 # Done
                 if storage_flag:
-                    new_path = os.path.normpath(self.__full_name).split(os.path.sep)[-1]
-                    df.to_csv(os.path.join("data", "assets", new_path))
+                    df.to_csv(os.path.join("data", "assets", name + ".csv"))
                 self.__prices = df
                 print("success", self.__full_name)
 
