@@ -131,5 +131,5 @@ all_assets = [Asset(x, False) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty'
                                                 'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',
                                                 'KC1_Comdty', 'C 1_Comdty', 'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty',
                                                 'W 1_Comdty']]
-                                                
-all_assets[0].ger_attributes()
+
+all_assets[0].get_attributes()
