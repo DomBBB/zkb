@@ -107,7 +107,7 @@ class prepareAsset:
                             df = df[column_order]
                 # Done
                 if storage_flag:
-                    df.to_csv(os.path.join("data", "assets", name + ".csv"))
+                    df.to_csv(os.path.join("data", "assets", name + ".csv"), index=False)
                 self.__prices = df
                 print("success", self.__full_name)
 
