@@ -7,7 +7,7 @@ java -cp ".;C:\Program Files (x86)\blp\dapi\blpapi3.jar" GetSupport
 
 
 SCRIPT 1: prepareAssets.py
-1) Loads all Assets from "assets_raw" in CHF (note: IH1 ends in June23 -> EXCLUDED FOR NOW; look for continuance?)
+1) Loads all Assets from "assets_raw" in CHF (note: IH1 ends in June23 = look for continuance; UB1 starts in 1998 but EURCHF only in 1999)
     * Foreign currencies in "support" as USDCHF (price of 1 USD in CHF). Exception: price of 100 JPY/KRW in CHF.
        -> asset prices are converted to CHF
 [TODO] 2) Stores all Assets in "assets"

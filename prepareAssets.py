@@ -15,6 +15,13 @@ class Asset:
                 self.__currency  = self.__full_name.split("_")[-1].split(".")[0]
                 df_data = pd.read_csv(self.__full_name, usecols=[1,2])
                 df_date = pd.DataFrame(index=pd.date_range(start=df_data.iloc[0]["date"], end="2023-12-31"))
+
+                ###############################################################################
+                # for now to prevent the bug DMark-EUR
+                if name == "UB1_Comdty":
+                    df_date = pd.DataFrame(index=pd.date_range(start="1999-01-01", end="2023-12-31"))
+                ###############################################################################
+
                 df_data["date"] = pd.to_datetime(df_data["date"])
                 df = df_date.merge(df_data, how="left", left_index=True, right_on="date").reset_index(drop=True)
                 df.insert(1, "weekday", df["date"].dt.day_name())
@@ -45,7 +52,8 @@ class Asset:
                     # I check if I can trade on that Friday, else I look forward to the next tradeable day
                     if manipulate_next_start:
                         df.iloc[manipulate_next_start, df.columns.get_loc(f"{name}_end")] = ""
-                        df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
+                        if new_i_start < len(df.index):
+                            df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
                     if pd.notnull(df.iloc[i][f"{name}_PX-LAST"]):
                         df.iloc[i, df.columns.get_loc(f"{name}_start")] = "start"
                         new_i_start = i
@@ -58,7 +66,8 @@ class Asset:
                         if new_i_start < len(df.index):
                             df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = "start"
                     if manipulate_next_start:
-                        df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
+                        if new_i_start < len(df.index):
+                            df.iloc[new_i_start, df.columns.get_loc(f"{name}_start")] = ""
                         manipulate_next_start = False
                     # I start from that Friday and look back to the last tradeable day (i.e. DO, MI, DI, MO)
                     previous_i_end = new_i_end
@@ -103,7 +112,7 @@ class Asset:
                 self.__prices = df
                 print("success", self.__full_name)
 
-    def __repr__(self):
+    def get_attributes(self):
         return self.__full_name, self.__currency, self.__prices
 
 
@@ -116,10 +125,11 @@ all_assets = [Asset(x, False) for x in ['FB1_Comdty', 'TU1_Comdty', 'FV1_Comdty'
                                                 'ES1_Index', 'PT1_Index', 'VG1_Index', 'Z 1_Index', 'GX1_Index',
                                                 'ST1_Index', 'CF1_Index', 'OI1_Index', 'QC1_Index', 'ATT1_Index',
                                                 'BE1_Index', 'EO1_Index', 'OT1_Index', 'XP1_Index', 'TP1_Index',
-                                                'NI1_Index', 'HI1_Index', 'MES1_Index', 'BZ1_Index',
+                                                'NI1_Index', 'HI1_Index', 'IH1_Index', 'MES1_Index', 'BZ1_Index',
                                                 'CL1_Comdty', 'QS1_Comdty', 'XB1_Comdty', 'HO1_Comdty',
                                                 'NG1_Comdty', 'LMAHDS03 LME_Comdty', 'LMCADS03_Comdty',
                                                 'LMNIDS03_Comdty', 'GC1_Comdty', 'SI1_Comdty', 'LC1_Comdty',
                                                 'KC1_Comdty', 'C 1_Comdty', 'CT1_Comdty', 'S 1_Comdty', 'SB1_Comdty',
                                                 'W 1_Comdty']]
-all_assets[0]
+                                                
+all_assets[0].ger_attributes()
